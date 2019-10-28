@@ -12,9 +12,6 @@ public class Rol implements Serializable, IProjectable {
 
 	private Long rolId ;
 
-	
-
-
     //endregion
 
     //region Getters & Setters

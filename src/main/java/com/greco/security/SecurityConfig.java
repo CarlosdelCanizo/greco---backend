@@ -25,9 +25,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Autowired
-//	private DataSource dataSource;
-
 	@Autowired
 	private ClientDetailsService clientDetailsService;
 
@@ -77,11 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new InMemoryTokenStore();
 	}
 
-	//-- use the JdbcTokenStore to store tokens in the database
-//	@Bean
-//	public JdbcTokenStore tokenStore() {
-//		return new JdbcTokenStore(dataSource);
-//	}
 
 	@Bean
 	@Autowired

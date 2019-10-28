@@ -20,16 +20,16 @@ public class Users implements Serializable, IProjectable {
         	@JoinColumn(name = "rol_id" )
 	private Rol rolId ;
 
-        	@Id
-            	@SequenceGenerator(name="SEQ_users", sequenceName="SEQ_users", allocationSize= 1)
-            	@GeneratedValue(generator = "SEQ_users")
-        	@Column(name = "user_id" )
+    @Id
+    @SequenceGenerator(name="SEQ_users", sequenceName="SEQ_users", allocationSize= 1)
+    @GeneratedValue(generator = "SEQ_users")
+    @Column(name = "user_id" )
 	private Long userId ;
 
-            	@Column(name = "username", scale = 0, length = 30, nullable = false )
+    @Column(name = "username", scale = 0, length = 30, nullable = false )
 	private String username ;
 
-            	@Column(name = "password", scale = 0, length = 255, nullable = false )
+    @Column(name = "password", scale = 0, length = 255, nullable = false )
 	private String password ;
 
     //endregion

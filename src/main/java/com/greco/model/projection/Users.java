@@ -1,6 +1,8 @@
 //USER_EXIT_METADATA#JAVA_SPRINGBOOT#846767211#10351
 package com.greco.model.projection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -14,6 +16,7 @@ public class Users implements Serializable, IProjectable {
 
 	private String username ;
 
+    @JsonIgnore
 	private String password ;
 
 
