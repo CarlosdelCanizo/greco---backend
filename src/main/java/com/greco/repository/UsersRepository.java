@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface UsersRepository extends PagingAndSortingRepository<Users, Long>, JpaSpecificationExecutor<Users>, UsersRepositoryCustom {
 //USER_EXIT_BEGIN#CUSTOM_METHODS#
-Users findByUsername(String userName);
+    Users findByEmail(String email);
+    Users findByEmailAndUuid(String email, String uuid);
 //USER_EXIT_END#CUSTOM_METHODS#
 }

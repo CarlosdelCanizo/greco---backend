@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class SolarPanel implements Serializable, IProjectable{
     private static final long serialVersionUID = 1L;
+    private Long id ;
     private String lat;
     private String lon;
     private String municipality;
@@ -18,6 +19,14 @@ public class SolarPanel implements Serializable, IProjectable{
     private String tracking;
     private String generationData;
     private String photographOfInstallation;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLat() {
         return lat;

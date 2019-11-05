@@ -3,9 +3,7 @@ package com.greco.security;
 import com.greco.model.Rol;
 import java.util.List;
 import com.greco.model.Users;
-
 import java.util.Collection;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +18,7 @@ public class CrmUserDetails implements UserDetails {
 
 
 	public CrmUserDetails(Users user) {
-		this.username = user.getUsername();
+		this.username = user.getEmail();
 		this.password = user.getPassword();
 		//this.authorities = translate(user.getRolId());
 	}

@@ -8,6 +8,8 @@ import com.greco.service.UsersService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -27,11 +29,6 @@ public class UsersServiceImpl implements UsersService {
             throw new ServerException(ServerErrorEnum.ENTITY_NOT_FOUND, "The Users with ID: "+ id+ "couldn't be found.");
         }
         return optional.get();
-    }
-
-    @Override
-    public Page<Users> findAll(Specification<Users> specs, Pageable pageable) {
-        return usersRepository.findAll(specs, pageable);
     }
 
     @Override
@@ -55,5 +52,15 @@ public class UsersServiceImpl implements UsersService {
         } catch (EmptyResultDataAccessException e) {
             throw new ServerException(ServerErrorEnum.ENTITY_NOT_FOUND, "The Users with ID: "+ id+ "couldn't be found.");
         }
+    }
+
+    @Override
+    public Users findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
+    @Override
+    public Users findByEmailAndUuid(String email, String uuid) {
+        return usersRepository.findByEmailAndUuid(email, uuid);
     }
 }

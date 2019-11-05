@@ -25,11 +25,6 @@ public class Rol implements Serializable, IProjectable {
         	@Column(name = "rol_id" )
 	private Long rolId ;
 
-//        	@JsonIgnore
-//        	@OneToMany(mappedBy = "rolId")
-//
-//	private Set<Users> usersrolId = new HashSet<>();
-
     //endregion
 
     //region Getters & Setters
@@ -48,14 +43,6 @@ public class Rol implements Serializable, IProjectable {
     public void setRolId(Long rolId) {
         this.rolId = rolId;
     }
-
-//    public Set<Users> getUsersrolId() {
-//        return usersrolId;
-//    }
-//
-//    public void setUsersrolId(Set<Users> usersrolId) {
-//        this.usersrolId = usersrolId;
-//    }
 
     //endregion
 }

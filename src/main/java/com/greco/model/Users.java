@@ -3,6 +3,7 @@ package com.greco.model;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
@@ -26,12 +27,17 @@ public class Users implements Serializable, IProjectable {
     @Column(name = "user_id" )
 	private Long userId ;
 
-    @Column(name = "username", scale = 0, length = 30, nullable = false )
-	private String username ;
+    @Column(name = "email", scale = 0, length = 255, nullable = false )
+	private String email ;
 
     @Column(name = "password", scale = 0, length = 255, nullable = false )
 	private String password ;
 
+    @Column(name = "privacy_policy_acceptance_date", nullable = true )
+    private Timestamp privacyPolicyAcceptanceDate;
+
+    @Column(name = "uuid", scale = 0, length = 255, nullable = false )
+    private String uuid;
     //endregion
 
     //region Getters & Setters
@@ -51,12 +57,12 @@ public class Users implements Serializable, IProjectable {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -67,6 +73,21 @@ public class Users implements Serializable, IProjectable {
         this.password = password;
     }
 
+    public Timestamp getPrivacyPolicyAcceptanceDate() {
+        return privacyPolicyAcceptanceDate;
+    }
+
+    public void setPrivacyPolicyAcceptanceDate(Timestamp privacyPolicyAcceptanceDate) {
+        this.privacyPolicyAcceptanceDate = privacyPolicyAcceptanceDate;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
     //endregion
 }
 
