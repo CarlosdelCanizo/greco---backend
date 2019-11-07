@@ -9,7 +9,8 @@ public enum GenericCheckingMessage {
     REGISTRATION_PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH("Password and confirm password doesn't match"),
     REGISTRATION_USER_ALREADY_REGISTERED("This user is already registered"),
     FORGOT_PASSWORD_EMPTY_EMAIL("Email empty."),
-    FORGOT_PASSWORD_UNREGISTERED_USER("Unregistered user.");
+    FORGOT_PASSWORD_UNREGISTERED_USER("Unregistered user."),
+    ENTITY_NOT_FOUND("Entity not found.");
     private String message;
 
     GenericCheckingMessage(String message) {

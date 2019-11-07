@@ -38,6 +38,7 @@ public class Users implements Serializable, IProjectable {
 
     @Column(name = "uuid", scale = 0, length = 255, nullable = false )
     private String uuid;
+
     //endregion
 
     //region Getters & Setters
@@ -88,6 +89,7 @@ public class Users implements Serializable, IProjectable {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
     //endregion
 }
 

@@ -52,8 +52,6 @@ public class SolarPanel implements Serializable, IProjectable
     @Column(name = "generation_data", scale = 0, length = 255, nullable = true )
     private String generationData;
 
-    private String photographOfInstallation; // ojoos
-
     public Long getId() {
         return id;
     }
@@ -156,13 +154,5 @@ public class SolarPanel implements Serializable, IProjectable
 
     public void setGenerationData(String generationData) {
         this.generationData = generationData;
-    }
-
-    public String getPhotographOfInstallation() {
-        return photographOfInstallation;
-    }
-
-    public void setPhotographOfInstallation(String photographOfInstallation) {
-        this.photographOfInstallation = photographOfInstallation;
     }
 }
