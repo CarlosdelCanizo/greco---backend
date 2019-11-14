@@ -13,17 +13,22 @@ public class RegistrationSolarPanel {
     @Column(name = "id" )
     private Long id ;
 
-    @Column(name = "registration_date", nullable = true )
+    @Column(name = "registration_date", nullable = true)
     private Timestamp registrationDate;
 
     private String photographOfInstallation;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "solarPanel")
+    /*@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "solarPanel")*/
+    /*@OneToOne(mappedBy = "registrationSolarPanel", cascade = CascadeType.ALL)
+    private SolarPanel solarPanel;*/
+
+    @OneToOne
+    @JoinColumn(name = "solar_panel")
     private SolarPanel solarPanel;
 
     @ManyToOne
-    @JoinColumn(name = "owner" )
+    @JoinColumn(name = "owner")
     private Users owner;
 
 

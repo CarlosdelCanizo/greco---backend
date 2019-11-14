@@ -60,6 +60,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Users findByUsername(String username) {
+        return usersRepository.findByUsernameIgnoreCase(username);
+    }
+
+    @Override
     public Users findByEmailAndUuid(String email, String uuid) {
         return usersRepository.findByEmailAndUuid(email, uuid);
     }

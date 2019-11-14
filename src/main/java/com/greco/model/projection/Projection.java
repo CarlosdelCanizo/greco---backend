@@ -1,6 +1,5 @@
 package com.greco.model.projection;
 
-import com.greco.model.SolarPanel;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
@@ -34,6 +33,8 @@ public class Projection {
             return Users.class;
         if (projection.equals("solarPanel"))
             return SolarPanel.class;
+        if (projection.equals("multimedia"))
+            return Multimedia.class;
         return null;
     }
 }

@@ -16,4 +16,15 @@ public class RegistrationSolarPanelServiceImpl implements RegistrationSolarPanel
     public RegistrationSolarPanel insert(RegistrationSolarPanel registrationSolar) {
         return registrationSolarPanelRepository.save(registrationSolar);
     }
+
+    @Override
+    public RegistrationSolarPanel findBySolarPanelId(Long solarPanelId) {
+        return registrationSolarPanelRepository.findBySolarPanelId(solarPanelId);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        registrationSolarPanelRepository.deleteById(id);
+    }
+
 }

@@ -9,5 +9,6 @@ public interface UsersService {
     Users update(Users users);
     void deleteById(Long id);
     Users findByEmail(String email);
+    Users findByUsername(String username);
     Users findByEmailAndUuid(String email, String uuid);
 }

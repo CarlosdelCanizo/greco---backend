@@ -10,4 +10,6 @@ public interface SolarPanelService {
     SolarPanel insert(SolarPanel solarPanel);
     SolarPanel update(SolarPanel solarPanel);
     Page<SolarPanel> findAll(Specification<SolarPanel> specs, Pageable pageable);
+    void deleteById(Long id);
+    String getFolderNameFromSolarPanel(SolarPanel solarPanel);
 }

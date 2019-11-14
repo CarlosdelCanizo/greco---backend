@@ -35,6 +35,8 @@ public class RegisterRestController {
             throw new BadRequestException(GenericCheckingMessage.REGISTRATION_EMPTY_EMAIL.toString());
         if(usersService.findByEmail(registrationRequest.getEmail()) != null)
             throw new ForbiddenException(GenericCheckingMessage.REGISTRATION_USER_ALREADY_REGISTERED.toString());
+        if(usersService.findByUsername(registrationRequest.getUsername()) != null)
+            throw new ForbiddenException(GenericCheckingMessage.REGISTRATION_USERNAME_ALREADY_REGISTERED.toString());
         if(Utils.isEmpty(registrationRequest.getPassword()))
             throw new BadRequestException(GenericCheckingMessage.REGISTRATION_EMPTY_PASSWORD.toString());
         if(Utils.isEmpty(registrationRequest.getConfirmPassword()))

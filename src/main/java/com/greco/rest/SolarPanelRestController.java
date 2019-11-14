@@ -1,23 +1,21 @@
 package com.greco.rest;
 
+import com.greco.exception.ForbiddenException;
+import com.greco.messages.GenericCheckingMessage;
+import com.greco.model.Multimedia;
 import com.greco.model.RegistrationSolarPanel;
 import com.greco.model.SolarPanel;
 import com.greco.model.projection.IProjectable;
 import com.greco.model.projection.Projection;
-import com.greco.service.AuthenticationService;
-import com.greco.service.RegistrationSolarPanelService;
-import com.greco.service.SolarPanelService;
-import com.greco.service.UsersService;
+import com.greco.service.*;
 import com.greco.utils.Utils;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("solarPanel")
@@ -25,11 +23,12 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
     @Autowired
     private SolarPanelService solarPanelService;
     @Autowired
-    private UsersService usersService;
+    private MultimediaService multimediaService;
     @Autowired
     private RegistrationSolarPanelService registrationSolarPanelService;
     @Autowired
     private AuthenticationService authenticationService;
+
 
     @GetMapping("{id}")
     public IProjectable byId(@PathVariable("id") Long id) {
@@ -59,6 +58,37 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         SolarPanel solarPanel = solarPanelService.insert(registrationSolarPanel.getSolarPanel());
         registrationSolarPanelService.insert(registrationSolarPanel);
         return Projection.convertSingle(solarPanelService.insert(solarPanel), "solarPanel");
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id) throws Exception {
+        RegistrationSolarPanel registrationSolarPanel = registrationSolarPanelService.findBySolarPanelId(id);
+        checkIfLoggedInUserHasPermissions(registrationSolarPanel.getOwner().getUserId(), GenericCheckingMessage.FORBIDDEN_ACTION.toString());
+        SolarPanel solarPanel = registrationSolarPanel.getSolarPanel();
+        List<Multimedia> multimediaList = solarPanel.getMultimedia();
+        for(Multimedia multimedia : multimediaList) {
+            deleteMultimedia(multimedia);
+        }
+        registrationSolarPanelService.deleteById(registrationSolarPanel.getId());
+        //delete folder of solar panel
+        String folder = solarPanelService.getFolderNameFromSolarPanel(solarPanel);
+        Utils.deleteFolder(folder);
+        solarPanelService.deleteById(solarPanel.getId());
+    }
+
+    private void deleteMultimedia(Multimedia multimedia) {
+        // Delete file
+        // Check if logged in user is the owner of multimedia
+        checkIfLoggedInUserHasPermissions(multimedia.getSolarPanel().getRegistrationSolarPanel().getOwner().getUserId(), GenericCheckingMessage.FORBIDDEN_ACTION.toString());
+        String multimediaFolder = multimediaService.getFolderNameFromMultimedia(multimedia);
+        Utils.deleteFile(multimedia.getName(), multimediaFolder);
+        // Delete multimedia register
+        multimediaService.deleteById(multimedia.getId());
+    }
+
+    private void checkIfLoggedInUserHasPermissions(Long ownerId, String message) {
+        if(!ownerId.equals(authenticationService.getLoggedUser().getUserId()))
+            throw new ForbiddenException(message);
     }
 
     private SolarPanel mockSolarPanel() {

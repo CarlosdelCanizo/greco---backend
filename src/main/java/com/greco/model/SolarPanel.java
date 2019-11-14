@@ -1,9 +1,10 @@
 package com.greco.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greco.model.projection.IProjectable;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "solar_panel")
@@ -51,6 +52,12 @@ public class SolarPanel implements Serializable, IProjectable
 
     @Column(name = "generation_data", scale = 0, length = 255, nullable = true )
     private String generationData;
+
+    @OneToMany(mappedBy = "solarPanel")
+    private List<Multimedia> multimedia = new ArrayList<>();
+
+    @OneToOne(mappedBy = "solarPanel", cascade = CascadeType.ALL)
+    private RegistrationSolarPanel registrationSolarPanel;
 
     public Long getId() {
         return id;
@@ -154,5 +161,21 @@ public class SolarPanel implements Serializable, IProjectable
 
     public void setGenerationData(String generationData) {
         this.generationData = generationData;
+    }
+
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(List<Multimedia> multimedia) {
+        this.multimedia = multimedia;
+    }
+
+    public RegistrationSolarPanel getRegistrationSolarPanel() {
+        return registrationSolarPanel;
+    }
+
+    public void setRegistrationSolarPanel(RegistrationSolarPanel registrationSolarPanel) {
+        this.registrationSolarPanel = registrationSolarPanel;
     }
 }

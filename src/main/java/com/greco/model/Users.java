@@ -17,8 +17,8 @@ public class Users implements Serializable, IProjectable {
     private static final long serialVersionUID = 1L;
 
     //region Properties
-        	@ManyToOne(fetch = FetchType.LAZY)
-        	@JoinColumn(name = "rol_id" )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rol_id" )
 	private Rol rolId ;
 
     @Id
@@ -39,6 +39,8 @@ public class Users implements Serializable, IProjectable {
     @Column(name = "uuid", scale = 0, length = 255, nullable = false )
     private String uuid;
 
+    @Column(name = "username", scale = 0, length = 100, nullable = true )
+    private String username ;
     //endregion
 
     //region Getters & Setters
@@ -88,6 +90,14 @@ public class Users implements Serializable, IProjectable {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     //endregion

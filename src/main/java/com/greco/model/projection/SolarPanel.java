@@ -2,6 +2,7 @@ package com.greco.model.projection;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SolarPanel implements Serializable, IProjectable{
     private static final long serialVersionUID = 1L;
@@ -19,6 +20,7 @@ public class SolarPanel implements Serializable, IProjectable{
     private String tracking;
     private String generationData;
     private String photographOfInstallation;
+    private List<Multimedia> multimedia;
 
     public Long getId() {
         return id;
@@ -132,4 +134,11 @@ public class SolarPanel implements Serializable, IProjectable{
         this.photographOfInstallation = photographOfInstallation;
     }
 
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(List<Multimedia> multimedia) {
+        this.multimedia = multimedia;
+    }
 }

@@ -10,15 +10,13 @@ public class Users implements Serializable, IProjectable {
     private static final long serialVersionUID = 1L;
 
     //region Properties
-	private Long userId ;
-
-	private String email ;
-
+	private Long userId;
+	private String email;
+    private String username;
     @JsonIgnore
-	private String password ;
-
+	private String password;
     @JsonIgnore
-    private Rol rolId ;
+    private Rol rolId;
 
     //endregion
 
@@ -54,6 +52,15 @@ public class Users implements Serializable, IProjectable {
     public void setRolId(Rol rolId) {
         this.rolId = rolId;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     //endregion
 }
 

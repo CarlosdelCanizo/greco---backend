@@ -16,6 +16,7 @@ import java.util.Optional;
 public class SolarPanelServiceImpl implements SolarPanelService {
     @Autowired
     SolarPanelRepository solarPanelRepository;
+    private final String UPLOAD_FOLDER = "./uploads/";
 
     @Override
     public SolarPanel findById(Long id) {
@@ -38,5 +39,15 @@ public class SolarPanelServiceImpl implements SolarPanelService {
     @Override
     public Page<SolarPanel> findAll(Specification<SolarPanel> specs, Pageable pageable) {
         return solarPanelRepository.findAll(specs, pageable);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        solarPanelRepository.deleteById(id);
+    }
+    @Override
+    public String getFolderNameFromSolarPanel(SolarPanel solarPanel) {
+        String userFolder = UPLOAD_FOLDER + solarPanel.getRegistrationSolarPanel().getOwner().getUserId() + "/" + solarPanel.getId() + "/";
+        return userFolder;
     }
 }
