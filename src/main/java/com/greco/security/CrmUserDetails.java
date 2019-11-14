@@ -1,13 +1,9 @@
 package com.greco.security;
 
-import com.greco.model.Rol;
-import java.util.List;
 import com.greco.model.Users;
 import java.util.Collection;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
-import java.util.ArrayList;
 
 public class CrmUserDetails implements UserDetails {
 
@@ -20,20 +16,19 @@ public class CrmUserDetails implements UserDetails {
 	public CrmUserDetails(Users user) {
 		this.username = user.getEmail();
 		this.password = user.getPassword();
-		//this.authorities = translate(user.getRolId());
 	}
 
-	private Collection<? extends GrantedAuthority> translate(Rol role) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-
-		String name = role.getName().toUpperCase();
-		if (!name.startsWith("ROLE_")) {
-			name = "ROLE_" + name;
-		}
-		authorities.add(new SimpleGrantedAuthority(name));
-
-		return authorities;
-	}
+//	private Collection<? extends GrantedAuthority> translate(Rol role) {
+//		List<GrantedAuthority> authorities = new ArrayList<>();
+//
+//		String name = role.getName().toUpperCase();
+//		if (!name.startsWith("ROLE_")) {
+//			name = "ROLE_" + name;
+//		}
+//		authorities.add(new SimpleGrantedAuthority(name));
+//
+//		return authorities;
+//	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

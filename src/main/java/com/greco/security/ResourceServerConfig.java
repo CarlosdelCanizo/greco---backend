@@ -35,7 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                          "/register/**",
                          "/email/**",
                          "/users/resetPassword/**").permitAll()
-                 .antMatchers("/**").authenticated()//.access("hasRole('ADMIN') or hasRole('USER')")
+                 .antMatchers("/**").authenticated()
                  .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
          }
 }

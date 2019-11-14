@@ -15,8 +15,6 @@ public class Users implements Serializable, IProjectable {
     private String username;
     @JsonIgnore
 	private String password;
-    @JsonIgnore
-    private Rol rolId;
 
     //endregion
 
@@ -43,14 +41,6 @@ public class Users implements Serializable, IProjectable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Rol getRolId() {
-        return rolId;
-    }
-
-    public void setRolId(Rol rolId) {
-        this.rolId = rolId;
     }
 
     public String getUsername() {

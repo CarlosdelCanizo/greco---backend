@@ -17,10 +17,6 @@ public class Users implements Serializable, IProjectable {
     private static final long serialVersionUID = 1L;
 
     //region Properties
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rol_id" )
-	private Rol rolId ;
-
     @Id
     @SequenceGenerator(name="SEQ_users", sequenceName="SEQ_users", allocationSize= 1)
     @GeneratedValue(generator = "SEQ_users")
@@ -44,13 +40,6 @@ public class Users implements Serializable, IProjectable {
     //endregion
 
     //region Getters & Setters
-    public Rol getRolId() {
-        return rolId;
-    }
-
-    public void setRolId(Rol rolId) {
-        this.rolId = rolId;
-    }
 
     public Long getUserId() {
         return userId;
