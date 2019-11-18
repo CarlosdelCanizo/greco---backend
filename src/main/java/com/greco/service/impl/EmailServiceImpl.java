@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
         if(user == null)
             throw new BadRequestException(GenericCheckingMessage.FORGOT_PASSWORD_UNREGISTERED_USER.toString());
         String uuid = user.getUuid();
-        String contentBody = TEXT_RESET_PASSWORD + "<a href='" + URL_REDIRECT + "/resetPassword?"+ uuid +"'>reset password</a>";
+        String contentBody = TEXT_RESET_PASSWORD + "<a href='" + URL_REDIRECT + "?"+ uuid +"'>reset password</a>";
         sendMessage(email, "Reset password", contentBody);
     }
 

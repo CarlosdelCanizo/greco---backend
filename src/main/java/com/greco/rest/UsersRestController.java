@@ -2,6 +2,8 @@ package com.greco.rest;
 
 import com.greco.dtos.AuthenticationDto;
 import com.greco.exception.BadRequestException;
+import com.greco.exception.ForbiddenException;
+import com.greco.messages.GenericCheckingMessage;
 import com.greco.model.Users;
 import com.greco.model.projection.IProjectable;
 import com.greco.model.projection.Projection;
@@ -30,7 +32,16 @@ public class UsersRestController {
         String email = auth.getEmail();
         if(Utils.isEmpty(password) || Utils.isEmpty(email))
             throw new BadRequestException("Email and password are required");
+        if(!auth.getPassword().equals(auth.getConfirmPassword()))
+            throw new BadRequestException(GenericCheckingMessage.RESETPASSWORD_PASSWORD_AND_CONFIRM_PASSWORD_NOT_MATCH.toString());
         Users user = usersService.findByEmailAndUuid(auth.getEmail(), auth.getUuid());
+        if(user == null) {
+            user = usersService.findByEmail(auth.getEmail());
+            if(user == null)
+                throw new BadRequestException(GenericCheckingMessage.RESETPASSWORD_USER_NOT_REGISTERED.toString());
+            else
+                throw new BadRequestException(GenericCheckingMessage.RESETPASSWORD_INVALID_UUID.toString());
+        }
 
         //Create a new uuid value
         user.setUuid(Utils.getRandomUUID());

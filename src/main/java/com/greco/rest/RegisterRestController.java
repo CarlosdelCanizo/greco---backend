@@ -56,6 +56,7 @@ public class RegisterRestController {
     private Users createUserFromRequest(RegistrationRequest registrationRequest){
         Users user = new Users();
         user.setEmail(registrationRequest.getEmail());
+        user.setUsername(registrationRequest.getUsername());
         String encryptedPassword = passwordEncoder.encode(registrationRequest.getPassword());
         user.setPassword(encryptedPassword);
         user.setPrivacyPolicyAcceptanceDate(new Timestamp(System.currentTimeMillis()));

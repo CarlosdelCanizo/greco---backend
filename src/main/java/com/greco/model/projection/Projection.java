@@ -35,6 +35,8 @@ public class Projection {
             return SolarPanel.class;
         if (projection.equals("multimedia"))
             return Multimedia.class;
+        if (projection.equals("comment"))
+            return Comment.class;
         return null;
     }
 }

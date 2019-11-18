@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class AuthenticationDto {
     String email;
     String password;
+    private String confirmPassword;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String uuid;
 
@@ -22,6 +23,14 @@ public class AuthenticationDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getUuid() {
