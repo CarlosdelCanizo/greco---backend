@@ -27,4 +27,6 @@ public class CrmUserDetailsService implements UserDetailsService {
         }
         return new CrmUserDetails(user);
     }
+
+
 }

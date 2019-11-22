@@ -16,10 +16,10 @@ public class SolarPanel implements Serializable, IProjectable {
     @Column(name = "id" )
     private Long id ;
 
-    @Column(name = "lat", scale = 0, length = 255, nullable = false )
+    @Column(name = "lat", nullable = false )
     private String  lat;
 
-    @Column(name = "lon", scale = 0, length = 255, nullable = false )
+    @Column(name = "lon", nullable = false )
     private String lon;
 
     // Semi mandatory fields
@@ -29,11 +29,11 @@ public class SolarPanel implements Serializable, IProjectable {
     @Column(name = "panel_tracking_inclination")
     private Boolean panelTrackingInclination;
 
-    @Column(name = "orientation", scale = 0, length = 255, nullable = true )
-    private Long orientation;
+    @Column(name = "orientation", nullable = true )
+    private Double orientation;
 
-    @Column(name = "inclination", scale = 0, length = 255, nullable = true )
-    private Long inclination;
+    @Column(name = "inclination", nullable = true )
+    private Double inclination;
 
     // Not mandatory fields
     @Column(name = "surface", nullable = true )
@@ -127,19 +127,19 @@ public class SolarPanel implements Serializable, IProjectable {
         this.postcode = postcode;
     }
 
-    public Long getOrientation() {
+    public Double getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(Long orientation) {
+    public void setOrientation(Double orientation) {
         this.orientation = orientation;
     }
 
-    public Long getInclination() {
+    public Double getInclination() {
         return inclination;
     }
 
-    public void setInclination(Long inclination) {
+    public void setInclination(Double inclination) {
         this.inclination = inclination;
     }
 

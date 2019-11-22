@@ -14,8 +14,8 @@ public class SolarPanel implements Serializable, IProjectable {
     private String municipality;
     @JsonIgnore
     private String postcode;
-    private String orientation;
-    private String inclination;
+    private Double orientation;
+    private Double inclination;
     private Double surface;
     private Double electricalCapacity;
     private String technologyUsed;
@@ -77,19 +77,19 @@ public class SolarPanel implements Serializable, IProjectable {
         this.postcode = postcode;
     }
 
-    public String getOrientation() {
+    public Double getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(String orientation) {
+    public void setOrientation(Double orientation) {
         this.orientation = orientation;
     }
 
-    public String getInclination() {
+    public Double getInclination() {
         return inclination;
     }
 
-    public void setInclination(String inclination) {
+    public void setInclination(Double inclination) {
         this.inclination = inclination;
     }
 

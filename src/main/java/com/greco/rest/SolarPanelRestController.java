@@ -1,5 +1,6 @@
 package com.greco.rest;
 
+import com.greco.dtos.CoordinatesDto;
 import com.greco.exception.BadRequestException;
 import com.greco.exception.ForbiddenException;
 import com.greco.messages.GenericCheckingMessage;
@@ -33,7 +34,8 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
     @GetMapping("{id}")
     public IProjectable byId(@PathVariable("id") Long id) {
         IProjectable result =  Projection.convertSingle(solarPanelService.findById(id), "solarPanel");
-        fillAdditionalFields((com.greco.model.projection.SolarPanel)result, authenticationService.getLoggedUser().getUserId());
+        if(authenticationService.getLoggedUser() != null)
+                fillAdditionalFields((com.greco.model.projection.SolarPanel)result, authenticationService.getLoggedUser().getUserId());
         return result;
     }
 
@@ -49,7 +51,21 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         Page<IProjectable> result = (Page<IProjectable>)Projection.convert(solarPanelPage, projection);
         List<IProjectable> solarPanelProjections = result.getContent();
         for(Object solarPanelProjection : solarPanelProjections) {
-            fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
+            if(authenticationService.getLoggedUser() != null)
+                fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
+        }
+        return result;
+    }
+
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = SolarPanel.class)})
+    @GetMapping("/byCoordinates")
+    public Page<IProjectable> searchSolarPanels(@RequestBody CoordinatesDto coordinatesDto) {
+        Page<SolarPanel> solarPanelPage = solarPanelService.findAll(specs(""), pageRequest(Integer.valueOf(DEFAULT_PAGE), Integer.valueOf(DEFAULT_PAGE), DEFAULT_SORT, "id"));
+        Page<IProjectable> result = (Page<IProjectable>)Projection.convert(solarPanelPage, "solarPanel");
+        List<IProjectable> solarPanelProjections = result.getContent();
+        for(Object solarPanelProjection : solarPanelProjections) {
+            if(authenticationService.getLoggedUser() != null)
+                fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
         }
         return result;
     }

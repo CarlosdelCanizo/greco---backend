@@ -1,6 +1,7 @@
 package com.greco.security;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,20 +23,29 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      public void configure(HttpSecurity http) throws Exception {
          // Configuracion de las URLS del OAuth2 (urls que queremos que sean disponibles o no a nivel app).
          //-- define URL patterns to enable OAuth2 security
-             http.
-         //      anonymous().disable()
-                 requestMatchers().antMatchers("/**")
+         http.requestMatchers().antMatchers("/**")
                  .and().authorizeRequests()
-                 .antMatchers("/v2/api-docs",
-                         "/configuration/ui",
-                         "/swagger-resources",
-                         "/configuration/security",
-                         "/swagger-ui.html",
-                         "/webjars/**",
-                         "/register/**",
-                         "/email/**",
-                         "/users/resetPassword/**").permitAll()
+                 .antMatchers(getAllOpenEndpoints()).permitAll()
+                 .antMatchers(HttpMethod.GET, "/solarPanel/**").permitAll()
+                 .antMatchers(HttpMethod.GET, "/multimedia/**").permitAll()
                  .antMatchers("/**").authenticated()
                  .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+         //http.authorizeRequests().antMatchers(HttpMethod.GET,"/multimedia").permitAll();
+
+         }
+
+         private String[] getAllOpenEndpoints(){
+            String[] openEndpoints = {
+                "/v2/api-docs",
+                 "/configuration/ui",
+                 "/swagger-resources",
+                 "/configuration/security",
+                 "/swagger-ui.html",
+                 "/webjars/**",
+                 "/register/**",
+                 "/email/**",
+                 "/users/resetPassword/**",
+            };
+            return openEndpoints;
          }
 }

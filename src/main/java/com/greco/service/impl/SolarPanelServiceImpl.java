@@ -45,6 +45,7 @@ public class SolarPanelServiceImpl implements SolarPanelService {
     public void deleteById(Long id) {
         solarPanelRepository.deleteById(id);
     }
+
     @Override
     public String getFolderNameFromSolarPanel(SolarPanel solarPanel) {
         String userFolder = UPLOAD_FOLDER + solarPanel.getRegistrationSolarPanel().getOwner().getUserId() + "/" + solarPanel.getId() + "/";

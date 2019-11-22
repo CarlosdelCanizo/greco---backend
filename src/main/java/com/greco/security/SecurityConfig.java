@@ -30,7 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private CrmUserDetailsService crmUserDetailsService;
-
     /**
      * defines which URL paths should be secured in our application
 	 * @param http

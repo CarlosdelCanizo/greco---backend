@@ -1,6 +1,8 @@
 package com.greco.rest;
 
+import com.greco.exception.BadRequestException;
 import com.greco.exception.ForbiddenException;
+import com.greco.exception.NotFoundException;
 import com.greco.messages.GenericCheckingMessage;
 import com.greco.model.Multimedia;
 import com.greco.model.SolarPanel;
@@ -13,13 +15,17 @@ import com.greco.service.UploadService;
 import com.greco.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -59,6 +65,24 @@ public class MultimediaRestController {
         InputStream targetStream = new FileInputStream(file);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(targetStream, response.getOutputStream());
+    }
+
+    @GetMapping("{id}/getImageB64/")
+    public ResponseEntity<String> getImage(@PathVariable("id") Long id) {
+        Multimedia multimedia = multimediaService.findById(id);
+        File fitxer = getFileFromMultimedia(multimedia);
+        if (!fitxer.exists()) {
+            throw new NotFoundException("image.notfound");
+        }
+
+        byte[] image = new byte[0];
+        try {
+            image = Files.readAllBytes(fitxer.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(Base64.getEncoder().encodeToString(image));
     }
 
     @DeleteMapping("/{id}")
