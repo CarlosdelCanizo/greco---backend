@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.validator.routines.EmailValidator;
-
-import javax.rmi.CORBA.Util;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +30,8 @@ public class RegisterRestController {
         // Checks
         if(Utils.isEmpty(registrationRequest.getEmail()))
             throw new BadRequestException(GenericCheckingMessage.REGISTRATION_EMPTY_EMAIL.toString());
+        if(Utils.isEmpty(registrationRequest.getUsername()))
+            throw new BadRequestException(GenericCheckingMessage.REGISTRATION_EMPTY_USERNAME.toString());
         if(usersService.findByEmail(registrationRequest.getEmail()) != null)
             throw new ForbiddenException(GenericCheckingMessage.REGISTRATION_USER_ALREADY_REGISTERED.toString());
         if(usersService.findByUsername(registrationRequest.getUsername()) != null)
@@ -53,13 +52,13 @@ public class RegisterRestController {
         usersService.insert(newUser);
     }
 
-    private Users createUserFromRequest(RegistrationRequest registrationRequest){
+    private Users createUserFromRequest(RegistrationRequest registrationRequest) {
         Users user = new Users();
         user.setEmail(registrationRequest.getEmail());
         user.setUsername(registrationRequest.getUsername());
         String encryptedPassword = passwordEncoder.encode(registrationRequest.getPassword());
         user.setPassword(encryptedPassword);
-        user.setPrivacyPolicyAcceptanceDate(new Timestamp(System.currentTimeMillis()));
+        user.setPrivacyPolicyAcceptanceDate(Utils.getTimestamp());
         user.setUuid(UUID.randomUUID().toString());
         return user;
     }

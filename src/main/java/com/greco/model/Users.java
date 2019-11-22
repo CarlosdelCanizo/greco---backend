@@ -29,14 +29,18 @@ public class Users implements Serializable, IProjectable {
     @Column(name = "password", scale = 0, length = 255, nullable = false )
 	private String password ;
 
-    @Column(name = "privacy_policy_acceptance_date", nullable = true )
+    @Column(name = "privacy_policy_acceptance_date", nullable = false )
     private Timestamp privacyPolicyAcceptanceDate;
 
     @Column(name = "uuid", scale = 0, length = 255, nullable = false )
     private String uuid;
 
-    @Column(name = "username", scale = 0, length = 100, nullable = true )
+    @Column(name = "username", scale = 0, length = 100, nullable = false )
     private String username ;
+
+    @Column(name = "first_time")
+    private Boolean firstTime;
+
     //endregion
 
     //region Getters & Setters
@@ -89,7 +93,14 @@ public class Users implements Serializable, IProjectable {
         this.username = username;
     }
 
-    //endregion
+    public Boolean getFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(Boolean firstTime) {
+        this.firstTime = firstTime;
+    }
+//endregion
 }
 
 

@@ -2,11 +2,11 @@ package com.greco.rest;
 
 import com.greco.dtos.AuthenticationDto;
 import com.greco.exception.BadRequestException;
-import com.greco.exception.ForbiddenException;
 import com.greco.messages.GenericCheckingMessage;
 import com.greco.model.Users;
 import com.greco.model.projection.IProjectable;
 import com.greco.model.projection.Projection;
+import com.greco.service.AuthenticationService;
 import com.greco.service.UsersService;
 import com.greco.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,50 @@ public class UsersRestController {
     UsersService usersService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @GetMapping("{id}")
     public IProjectable byId(@PathVariable("id") Long id) {
-        return Projection.convertSingle(usersService.findById(id), "users");
+        IProjectable result =  Projection.convertSingle(usersService.findById(id), "users");
+        fillAdditionalFields((com.greco.model.projection.Users)result);
+        return result;
+    }
+
+    @GetMapping("/getMyUserInfo")
+    public IProjectable getMyUserInfo() {
+        Users loggedInUser = authenticationService.getLoggedUser();
+        controlLogin(loggedInUser); //Todo investigate how to put this check just after the login action
+        IProjectable result =  Projection.convertSingle(loggedInUser, "users");
+        fillAdditionalFields((com.greco.model.projection.Users)result);
+        return result;
+    }
+
+//    @GetMapping("/checkIfUserIsPreviouslyLogged")
+//    public Boolean checkIfUserIsPreviouslyLogged() {
+//        Users loggedInUser = authenticationService.getLoggedUser();
+//        controlLogin(loggedInUser); //Todo investigate how to put this check just after the login action
+//        return !loggedInUser.getFirstTime();
+//    }
+
+    private void controlLogin(Users user) {
+        if(user.getFirstTime() == null) {
+            user.setFirstTime(true);
+            usersService.insert(user);
+        }
+        else {
+            if(user.getFirstTime() == true) {
+                user.setFirstTime(false);
+                usersService.insert(user);
+            }
+        }
+    }
+
+    private void fillAdditionalFields(com.greco.model.projection.Users usersProjection) {
+        if(usersProjection.getFirstTime() == null || usersProjection.getFirstTime() == true)
+            usersProjection.setIsPreviouslyLogged(false);
+        else
+            usersProjection.setIsPreviouslyLogged(true);
     }
 
     @PutMapping("/resetPassword")

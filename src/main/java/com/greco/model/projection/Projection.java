@@ -37,6 +37,8 @@ public class Projection {
             return Multimedia.class;
         if (projection.equals("comment"))
             return Comment.class;
+        if (projection.equals("registrationSolarPanel"))
+            return RegistrationSolarPanel.class;
         return null;
     }
 }

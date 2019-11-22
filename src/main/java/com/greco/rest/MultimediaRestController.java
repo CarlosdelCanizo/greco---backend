@@ -36,7 +36,7 @@ public class MultimediaRestController {
     private SolarPanelService solarPanelService;
 
     private final String UPLOAD_FOLDER = "./uploads/";
-    private final int MULTIMEDIA_MAXIMUM_NUM_CAN_BE_UPLOADED = 5;
+    private final int MULTIMEDIA_MAXIMUM_NUM_CAN_BE_UPLOADED = 3;
 
     @PostMapping("/upload/{solarPanelId}")
     public IProjectable uploadMultimedia(@PathVariable("solarPanelId") Long solarPanelId,

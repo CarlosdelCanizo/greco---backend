@@ -1,18 +1,22 @@
 package com.greco.model.projection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SolarPanel implements Serializable, IProjectable{
+public class SolarPanel implements Serializable, IProjectable {
     private static final long serialVersionUID = 1L;
     private Long id ;
     private String lat;
     private String lon;
+    @JsonIgnore
     private String municipality;
+    @JsonIgnore
     private String postcode;
     private String orientation;
     private String inclination;
+    private Double surface;
     private Double electricalCapacity;
     private String technologyUsed;
     private Date commissioningDate;
@@ -21,6 +25,17 @@ public class SolarPanel implements Serializable, IProjectable{
     private String generationData;
     private String photographOfInstallation;
     private List<Multimedia> multimedia;
+    private Boolean panelTrackingOrientation;
+    private Boolean panelTrackingInclination;
+    private String comment;
+    private Boolean battery;
+    private String batteryDescription;
+    private String installationName;
+    private String installationProperty;
+    private String installationType;
+    private boolean isMine;
+   @JsonIgnore
+   private RegistrationSolarPanel registrationSolarPanel;
 
     public Long getId() {
         return id;
@@ -76,6 +91,14 @@ public class SolarPanel implements Serializable, IProjectable{
 
     public void setInclination(String inclination) {
         this.inclination = inclination;
+    }
+
+    public Double getSurface() {
+        return surface;
+    }
+
+    public void setSurface(Double surface) {
+        this.surface = surface;
     }
 
     public Double getElectricalCapacity() {
@@ -140,5 +163,85 @@ public class SolarPanel implements Serializable, IProjectable{
 
     public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public Boolean getPanelTrackingOrientation() {
+        return panelTrackingOrientation;
+    }
+
+    public void setPanelTrackingOrientation(Boolean panelTrackingOrientation) {
+        this.panelTrackingOrientation = panelTrackingOrientation;
+    }
+
+    public Boolean getPanelTrackingInclination() {
+        return panelTrackingInclination;
+    }
+
+    public void setPanelTrackingInclination(Boolean panelTrackingInclination) {
+        this.panelTrackingInclination = panelTrackingInclination;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Boolean getBattery() {
+        return battery;
+    }
+
+    public void setBattery(Boolean battery) {
+        this.battery = battery;
+    }
+
+    public String getBatteryDescription() {
+        return batteryDescription;
+    }
+
+    public void setBatteryDescription(String batteryDescription) {
+        this.batteryDescription = batteryDescription;
+    }
+
+    public String getInstallationName() {
+        return installationName;
+    }
+
+    public void setInstallationName(String installationName) {
+        this.installationName = installationName;
+    }
+
+    public String getInstallationProperty() {
+        return installationProperty;
+    }
+
+    public void setInstallationProperty(String installationProperty) {
+        this.installationProperty = installationProperty;
+    }
+
+    public String getInstallationType() {
+        return installationType;
+    }
+
+    public void setInstallationType(String installationType) {
+        this.installationType = installationType;
+    }
+
+    public boolean getIsMine() {
+        return isMine;
+    }
+
+    public void setIsMine(boolean mine) {
+        isMine = mine;
+    }
+
+   public RegistrationSolarPanel getRegistrationSolarPanel() {
+        return registrationSolarPanel;
+    }
+
+    public void setRegistrationSolarPanel(RegistrationSolarPanel registrationSolarPanel) {
+        this.registrationSolarPanel = registrationSolarPanel;
     }
 }

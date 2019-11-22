@@ -13,9 +13,9 @@ public class Users implements Serializable, IProjectable {
 	private Long userId;
 	private String email;
     private String username;
+    private Boolean isPreviouslyLogged;
     @JsonIgnore
-	private String password;
-
+    private Boolean firstTime;
     //endregion
 
     //region Getters & Setters
@@ -35,14 +35,6 @@ public class Users implements Serializable, IProjectable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -51,7 +43,23 @@ public class Users implements Serializable, IProjectable {
         this.username = username;
     }
 
-    //endregion
+    public Boolean getIsPreviouslyLogged() {
+        return isPreviouslyLogged;
+    }
+
+    public void setIsPreviouslyLogged(Boolean isPreviouslyLogged) {
+        this.isPreviouslyLogged = isPreviouslyLogged;
+    }
+
+    public Boolean getFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(Boolean firstTime) {
+        this.firstTime = firstTime;
+    }
+
+//endregion
 }
 
 
