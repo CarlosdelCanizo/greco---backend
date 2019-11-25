@@ -11,9 +11,6 @@ public class Comment implements Serializable, IProjectable{
 
     private Timestamp creationDate;
 
-   /* private Users owner;
-
-    private SolarPanel solarPanel;*/
 
     public Long getId() {
         return id;
@@ -39,19 +36,4 @@ public class Comment implements Serializable, IProjectable{
         this.creationDate = creationDate;
     }
 
-   /* public Users getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Users owner) {
-        this.owner = owner;
-    }
-
-    public SolarPanel getSolarPanel() {
-        return solarPanel;
-    }
-
-    public void setSolarPanel(SolarPanel solarPanel) {
-        this.solarPanel = solarPanel;
-    } */
 }

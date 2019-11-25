@@ -41,9 +41,12 @@ public class SolarPanel implements Serializable, IProjectable {
 
     @Column(name = "inverter_capacity", scale = 0, length = 255, nullable = true )
     private String inverterCapacity;
+    // todo eliminar comment field
+//    @Column(name = "comment", scale = 0, length = 2000, nullable = true )
+//    private String comment;
 
-    @Column(name = "comment", scale = 0, length = 2000, nullable = true )
-    private String comment;
+    @Column(name = "observation", scale = 0, length = 2000, nullable = true )
+    private String observation;
 
     @Column(name = "battery")
     private Boolean battery;
@@ -83,6 +86,9 @@ public class SolarPanel implements Serializable, IProjectable {
 
     @OneToMany(mappedBy = "solarPanel")
     private List<Multimedia> multimedia = new ArrayList<>();
+
+    @OneToMany(mappedBy = "solarPanel")
+    private List<Comment> comment = new ArrayList<>();
 
     @OneToOne(mappedBy = "solarPanel", cascade = CascadeType.ALL)
     private RegistrationSolarPanel registrationSolarPanel;
@@ -158,13 +164,21 @@ public class SolarPanel implements Serializable, IProjectable {
     public void setInverterCapacity(String inverterCapacity) {
         this.inverterCapacity = inverterCapacity;
     }
+    // todo eliminar
+//    public String getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(String comment) {
+//        this.comment = comment;
+//    }
 
-    public String getComment() {
-        return comment;
+    public String getObservation() {
+        return observation;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setObservation(String observation) {
+        this.observation = observation;
     }
 
     public Double getElectricalCapacity() {
@@ -213,6 +227,14 @@ public class SolarPanel implements Serializable, IProjectable {
 
     public void setMultimedia(List<Multimedia> multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
     }
 
     public RegistrationSolarPanel getRegistrationSolarPanel() {

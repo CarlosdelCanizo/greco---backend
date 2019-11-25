@@ -4,6 +4,7 @@ import com.greco.dtos.CoordinatesDto;
 import com.greco.exception.BadRequestException;
 import com.greco.exception.ForbiddenException;
 import com.greco.messages.GenericCheckingMessage;
+import com.greco.model.Comment;
 import com.greco.model.Multimedia;
 import com.greco.model.RegistrationSolarPanel;
 import com.greco.model.SolarPanel;
@@ -15,6 +16,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -29,6 +33,8 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
     private RegistrationSolarPanelService registrationSolarPanelService;
     @Autowired
     private AuthenticationService authenticationService;
+    @Autowired
+    private CommentService commentService;
 
 
     @GetMapping("{id}")
@@ -39,6 +45,15 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         return result;
     }
 
+    @GetMapping("{id}/comments")
+    public Page<IProjectable> getSolarPanelComments(@PathVariable("id") Long id,
+                                                    @RequestParam(value="page", required = false, defaultValue = DEFAULT_PAGE) int page,
+                                                    @RequestParam(value="size", required = false, defaultValue = DEFAULT_SIZE) int size) {
+        Pageable sortedByCreationDateAsc = PageRequest.of(page, size, Sort.by("creationDate").ascending());
+        Page<Comment> comments = commentService.findBySolarPanelId(id,sortedByCreationDateAsc);
+        return (Page<IProjectable>)Projection.convert(comments, "comment");
+    }
+
     @ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = SolarPanel.class)})
     @GetMapping
     public Page<IProjectable> search(@RequestParam(value="q", required = false, defaultValue = "") String search,
@@ -46,33 +61,14 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
                                      @RequestParam(value="size", required = false, defaultValue = DEFAULT_SIZE) int size,
                                      @RequestParam(value="sort", required = false, defaultValue = DEFAULT_SORT) String sort,
                                      @RequestParam(value="field", required = false, defaultValue = "id") String field,
-                                     @RequestParam(value="projection", required = false, defaultValue = "solarPanel") String projection) {
-        Page<SolarPanel> solarPanelPage = solarPanelService.findAll(specs(search), pageRequest(page, size, sort, field));
-        Page<IProjectable> result = (Page<IProjectable>)Projection.convert(solarPanelPage, projection);
-        List<IProjectable> solarPanelProjections = result.getContent();
-        for(Object solarPanelProjection : solarPanelProjections) {
-            if(authenticationService.getLoggedUser() != null)
-                fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
-        }
+                                     @RequestParam(value="projection", required = false, defaultValue = "solarPanel") String projection,
+                                     @RequestBody(required = false) CoordinatesDto coordinatesDto) {
+        Page<IProjectable> result;
+        if(coordinatesDto == null || coordinatesDto.getLat().equals(0) || coordinatesDto.getLon().equals(0))
+            result = getByCustomSearch(search, page, size, sort, field, projection);
+        else
+            result = getByCoordinates(coordinatesDto);
         return result;
-    }
-
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = SolarPanel.class)})
-    @GetMapping("/byCoordinates")
-    public Page<IProjectable> searchSolarPanels(@RequestBody CoordinatesDto coordinatesDto) {
-        Page<SolarPanel> solarPanelPage = solarPanelService.findAll(specs(""), pageRequest(Integer.valueOf(DEFAULT_PAGE), Integer.valueOf(DEFAULT_PAGE), DEFAULT_SORT, "id"));
-        Page<IProjectable> result = (Page<IProjectable>)Projection.convert(solarPanelPage, "solarPanel");
-        List<IProjectable> solarPanelProjections = result.getContent();
-        for(Object solarPanelProjection : solarPanelProjections) {
-            if(authenticationService.getLoggedUser() != null)
-                fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
-        }
-        return result;
-    }
-
-    private void fillAdditionalFields(com.greco.model.projection.SolarPanel solarPanelProjection, Long loggedInUserId) {
-        if(solarPanelProjection.getRegistrationSolarPanel() != null && solarPanelProjection.getRegistrationSolarPanel().getOwner().getUserId().equals(loggedInUserId))
-            solarPanelProjection.setIsMine(true);
     }
 
     @PutMapping
@@ -82,31 +78,6 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         IProjectable result =  Projection.convertSingle(solarPanelService.update(solarPanel), "solarPanel");
         ((com.greco.model.projection.SolarPanel)result).setIsMine(true); // If the solar panel is updated it is because the loggedUser is the owner
         return result;
-    }
-
-    private void checkSolarPanelValues(SolarPanel solarPanel) {
-        checkMandatoryValues(solarPanel);
-        if(solarPanel.getElectricalCapacity() == null && solarPanel.getSurface() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_POWER_CAPACITY_OR_PANEL_SURFACE_MANDATORY.toString());
-        if(solarPanel.getOrientation() == null || solarPanel.getOrientation() < 0 || solarPanel.getOrientation() > 360)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_ORIENTATION_WRONG_VALUES.toString());
-        if(solarPanel.getInclination() == null || solarPanel.getInclination() < 0 || solarPanel.getInclination() > 90)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_INCLINATION_WRONG_VALUES.toString());
-        if (solarPanel.getPanelTrackingOrientation().booleanValue() == false && solarPanel.getOrientation() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_WITH_TRACKING_ORIENTATION_MANDATORY.toString());
-        if(solarPanel.getPanelTrackingInclination().booleanValue() == false && solarPanel.getInclination() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_WITH_TRACKING_INCLINATION_MANDATORY.toString());
-    }
-
-    private void checkMandatoryValues(SolarPanel solarPanel) {
-        if(solarPanel.getLat() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_LATITUDE_MANDATORY.toString());
-        if(solarPanel.getLon() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_LONGITUDE_MANDATORY.toString());
-        if(solarPanel.getPanelTrackingOrientation() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_TRACKING_ORIENTATION_MANDATORY.toString());
-        if(solarPanel.getPanelTrackingInclination() == null)
-            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_TRACKING_INCLINATION_MANDATORY.toString());
     }
 
     @PostMapping
@@ -136,6 +107,51 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         solarPanelService.deleteById(solarPanel.getId());
     }
 
+    private Page<IProjectable> getByCustomSearch(String search, int page, int size, String sort, String field, String projection) {
+        Page<SolarPanel> solarPanelPage = solarPanelService.findAll(specs(search), pageRequest(page, size, sort, field));
+        Page<IProjectable> result = (Page<IProjectable>)Projection.convert(solarPanelPage, projection);
+        List<IProjectable> solarPanelProjections = result.getContent();
+        for(Object solarPanelProjection : solarPanelProjections) {
+            if(authenticationService.getLoggedUser() != null)
+                fillAdditionalFields((com.greco.model.projection.SolarPanel)solarPanelProjection, authenticationService.getLoggedUser().getUserId());
+        }
+        return result;
+    }
+
+    private Page<IProjectable> getByCoordinates(CoordinatesDto coordinatesDto) {
+        return null; //todo add logic
+    }
+
+    private void fillAdditionalFields(com.greco.model.projection.SolarPanel solarPanelProjection, Long loggedInUserId) {
+        if(solarPanelProjection.getRegistrationSolarPanel() != null && solarPanelProjection.getRegistrationSolarPanel().getOwner().getUserId().equals(loggedInUserId))
+            solarPanelProjection.setIsMine(true);
+    }
+
+    private void checkSolarPanelValues(SolarPanel solarPanel) {
+        checkMandatoryValues(solarPanel);
+        if(solarPanel.getElectricalCapacity() == null && solarPanel.getSurface() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_POWER_CAPACITY_OR_PANEL_SURFACE_MANDATORY.toString());
+        if(solarPanel.getOrientation() == null || solarPanel.getOrientation() < 0 || solarPanel.getOrientation() > 360)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_ORIENTATION_WRONG_VALUES.toString());
+        if(solarPanel.getInclination() == null || solarPanel.getInclination() < 0 || solarPanel.getInclination() > 90)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_INCLINATION_WRONG_VALUES.toString());
+        if (solarPanel.getPanelTrackingOrientation().booleanValue() == false && solarPanel.getOrientation() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_WITH_TRACKING_ORIENTATION_MANDATORY.toString());
+        if(solarPanel.getPanelTrackingInclination().booleanValue() == false && solarPanel.getInclination() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_WITH_TRACKING_INCLINATION_MANDATORY.toString());
+    }
+
+    private void checkMandatoryValues(SolarPanel solarPanel) {
+        if(solarPanel.getLat() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_LATITUDE_MANDATORY.toString());
+        if(solarPanel.getLon() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_LONGITUDE_MANDATORY.toString());
+        if(solarPanel.getPanelTrackingOrientation() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_TRACKING_ORIENTATION_MANDATORY.toString());
+        if(solarPanel.getPanelTrackingInclination() == null)
+            throw new BadRequestException(GenericCheckingMessage.SOLAR_PANEL_TRACKING_INCLINATION_MANDATORY.toString());
+    }
+
     private void deleteMultimedia(Multimedia multimedia) {
         // Delete file
         // Check if logged in user is the owner of multimedia
@@ -150,18 +166,4 @@ public class SolarPanelRestController extends BaseRestController<SolarPanel>{
         if(!ownerId.equals(authenticationService.getLoggedUser().getUserId()))
             throw new ForbiddenException(message);
     }
-
-//    private SolarPanel mockSolarPanel() {
-//        SolarPanel solarPanel = new SolarPanel();
-//        solarPanel.setCommissioningDate(new Date());
-//        solarPanel.setElectricalCapacity(19.5);
-//        solarPanel.setOrientation("south");
-//        solarPanel.setInclination("45");
-//        solarPanel.setLat("41.3818");
-//        solarPanel.setLon("2.1685");
-//        solarPanel.setMunicipality("Barcelona");
-//        solarPanel.setPostcode("08041");
-//        solarPanel.setTechnologyUsed("monocrystalline silicon");
-//        return solarPanel;
-//    }
 }
