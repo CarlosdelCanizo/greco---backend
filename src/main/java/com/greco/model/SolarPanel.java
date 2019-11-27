@@ -17,10 +17,10 @@ public class SolarPanel implements Serializable, IProjectable {
     private Long id ;
 
     @Column(name = "lat", nullable = false )
-    private String  lat;
+    private Double  lat;
 
     @Column(name = "lon", nullable = false )
-    private String lon;
+    private Double lon;
 
     // Semi mandatory fields
     @Column(name = "panel_tracking_orientation")
@@ -101,19 +101,19 @@ public class SolarPanel implements Serializable, IProjectable {
         this.id = id;
     }
 
-    public String getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 

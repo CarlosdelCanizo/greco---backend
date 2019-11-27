@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service("solarPanelService")
@@ -50,5 +52,14 @@ public class SolarPanelServiceImpl implements SolarPanelService {
     public String getFolderNameFromSolarPanel(SolarPanel solarPanel) {
         String userFolder = UPLOAD_FOLDER + solarPanel.getRegistrationSolarPanel().getOwner().getUserId() + "/" + solarPanel.getId() + "/";
         return userFolder;
+    }
+
+//    @Override
+//    public List<SolarPanel> findByLatitudeAndLongitudeLimits(Double latMin, Double latMax, Double lonMin, Double lonMax) {
+//        return solarPanelRepository.findByLatGreaterThanAndLatLessThanAndLonGreaterThanAndLonLessThan(latMin, latMax, lonMin, lonMax);
+//    }
+    @Override
+    public Page<SolarPanel> findByLatitudeAndLongitudeLimits(Double latMin, Double latMax, Double lonMin, Double lonMax, Pageable pageable) {
+        return solarPanelRepository.findByLatGreaterThanAndLatLessThanAndLonGreaterThanAndLonLessThan(latMin, latMax, lonMin, lonMax, pageable);
     }
 }

@@ -3,7 +3,7 @@ package com.greco.dtos;
 public class CoordinatesDto {
     private Double lat;
     private Double lon;
-    private Integer zoom;
+    private Integer distance; //in km
 
     public Double getLat() {
         return lat;
@@ -21,11 +21,11 @@ public class CoordinatesDto {
         this.lon = lon;
     }
 
-    public Integer getZoom() {
-        return zoom;
+    public Integer getDistance() {
+        return distance;
     }
 
-    public void setZoom(Integer zoom) {
-        this.zoom = zoom;
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 }

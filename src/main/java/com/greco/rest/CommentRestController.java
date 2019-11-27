@@ -1,6 +1,7 @@
 package com.greco.rest;
 
 import com.greco.exception.BadRequestException;
+import com.greco.exception.ForbiddenException;
 import com.greco.messages.GenericCheckingMessage;
 import com.greco.model.Comment;
 import com.greco.model.Users;
@@ -37,7 +38,12 @@ public class CommentRestController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
+        checkIfLoggedInUserHasPermissions(commentService.findById(id).getOwner().getUserId(), GenericCheckingMessage.FORBIDDEN_ACTION.toString());
         commentService.deleteById(id);
     }
 
+    private void checkIfLoggedInUserHasPermissions(Long ownerId, String message) {
+        if(!ownerId.equals(authenticationService.getLoggedUser().getUserId()))
+            throw new ForbiddenException(message);
+    }
 }

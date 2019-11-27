@@ -10,7 +10,6 @@ public class SolarPanel implements Serializable, IProjectable {
     private Long id ;
     private String lat;
     private String lon;
-    @JsonIgnore
     private String municipality;
     @JsonIgnore
     private String postcode;
@@ -27,7 +26,7 @@ public class SolarPanel implements Serializable, IProjectable {
     private List<Multimedia> multimedia;
     private Boolean panelTrackingOrientation;
     private Boolean panelTrackingInclination;
-    private String comment;
+    private String observation;
     private Boolean battery;
     private String batteryDescription;
     private String installationName;
@@ -181,12 +180,12 @@ public class SolarPanel implements Serializable, IProjectable {
         this.panelTrackingInclination = panelTrackingInclination;
     }
 
-    public String getComment() {
-        return comment;
+    public String getObservation() {
+        return observation;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setObservation(String observation) {
+        this.observation = observation;
     }
 
     public Boolean getBattery() {

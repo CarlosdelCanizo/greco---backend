@@ -23,6 +23,8 @@ public enum GenericCheckingMessage {
     SOLAR_PANEL_POWER_CAPACITY_OR_PANEL_SURFACE_MANDATORY("Power capacity and surface of panel empty. At least one have to be filled"),
     SOLAR_PANEL_ORIENTATION_WRONG_VALUES("Orientation value wrong. The values have to be between 0 and 360."),
     SOLAR_PANEL_INCLINATION_WRONG_VALUES("Inclination value wrong. The values have to be between 0 and 90."),
+    SOLAR_PANEL_LATITUDE_WRONG_VALUES("Latitude value wrong. The values have to be between -90 and 90."),
+    SOLAR_PANEL_LONGITUDE_WRONG_VALUES("Longitude value wrong. The values have to be between -180 and 180."),
     SOLAR_PANEL_WITH_TRACKING_ORIENTATION_MANDATORY("Panel tracking selected - so the orientation value is mandatory."),
     SOLAR_PANEL_WITH_TRACKING_INCLINATION_MANDATORY("Panel tracking selected - so the inclination value is mandatory."),
     SOLAR_PANEL_TRACKING_ORIENTATION_MANDATORY("Panel tracking orientation is a mandatory field"),
