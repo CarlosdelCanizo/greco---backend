@@ -39,7 +39,6 @@ public class UsersRestController {
     @GetMapping("/getMyUserInfo")
     public IProjectable getMyUserInfo() {
         Users loggedInUser = authenticationService.getLoggedUser();
-        controlLogin(loggedInUser); //Todo investigate how to put this check just after the login action
         IProjectable result =  Projection.convertSingle(loggedInUser, "users");
         fillAdditionalFields((com.greco.model.projection.Users)result);
         return result;
@@ -78,19 +77,6 @@ public class UsersRestController {
     public void delete(@PathVariable("id") Long id) {
         usersService.deleteById(id);
     }*/
-
-    private void controlLogin(Users user) {
-        if(user.getFirstTime() == null) {
-            user.setFirstTime(true);
-            usersService.insert(user);
-        }
-        else {
-            if(user.getFirstTime() == true) {
-                user.setFirstTime(false);
-                usersService.insert(user);
-            }
-        }
-    }
 
     private void fillAdditionalFields(com.greco.model.projection.Users usersProjection) {
         if(usersProjection.getFirstTime() == null || usersProjection.getFirstTime() == true)

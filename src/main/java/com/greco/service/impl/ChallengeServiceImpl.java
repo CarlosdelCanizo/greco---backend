@@ -1,6 +1,7 @@
 package com.greco.service.impl;
 
 import com.greco.dtos.ChallengesInfoDto;
+import com.greco.model.Users;
 import com.greco.service.ChallengeService;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,11 @@ public class ChallengeServiceImpl implements ChallengeService {
     public List<ChallengesInfoDto> getMyChallengeInfo(Long userId) {
         // TODO add logic
         return getMockInfo();
+    }
+
+    @Override
+    public void subscribe(Users user, Long challengeId) {
+        // TODO add logic
     }
 
     private List<ChallengesInfoDto> getMockInfo() {

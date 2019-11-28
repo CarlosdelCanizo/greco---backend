@@ -5,14 +5,9 @@ import com.greco.exception.ServerException;
 import com.greco.model.Users;
 import com.greco.repository.UsersRepository;
 import com.greco.service.UsersService;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 
@@ -68,4 +63,5 @@ public class UsersServiceImpl implements UsersService {
     public Users findByEmailAndUuid(String email, String uuid) {
         return usersRepository.findByEmailAndUuid(email, uuid);
     }
+
 }

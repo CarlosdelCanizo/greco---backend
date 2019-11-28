@@ -41,9 +41,6 @@ public class SolarPanel implements Serializable, IProjectable {
 
     @Column(name = "inverter_capacity", scale = 0, length = 255, nullable = true )
     private String inverterCapacity;
-    // todo eliminar comment field
-//    @Column(name = "comment", scale = 0, length = 2000, nullable = true )
-//    private String comment;
 
     @Column(name = "observation", scale = 0, length = 2000, nullable = true )
     private String observation;
@@ -164,14 +161,6 @@ public class SolarPanel implements Serializable, IProjectable {
     public void setInverterCapacity(String inverterCapacity) {
         this.inverterCapacity = inverterCapacity;
     }
-    // todo eliminar
-//    public String getComment() {
-//        return comment;
-//    }
-//
-//    public void setComment(String comment) {
-//        this.comment = comment;
-//    }
 
     public String getObservation() {
         return observation;
