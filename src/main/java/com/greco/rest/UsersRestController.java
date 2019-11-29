@@ -14,12 +14,12 @@ import com.greco.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("users")
 public class UsersRestController {
+
     @Autowired
     UsersService usersService;
     @Autowired
@@ -38,6 +38,7 @@ public class UsersRestController {
 
     @GetMapping("/getMyUserInfo")
     public IProjectable getMyUserInfo() {
+
         Users loggedInUser = authenticationService.getLoggedUser();
         IProjectable result =  Projection.convertSingle(loggedInUser, "users");
         fillAdditionalFields((com.greco.model.projection.Users)result);

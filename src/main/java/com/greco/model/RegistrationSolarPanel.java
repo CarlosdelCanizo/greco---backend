@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "registration_solar_panel")
 public class RegistrationSolarPanel {
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="SEQ_registration_solar_panel", sequenceName="SEQ_registration_solar_panel", allocationSize= 1)

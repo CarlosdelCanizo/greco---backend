@@ -20,7 +20,6 @@ public class SolarPanel implements Serializable, IProjectable {
     private String technologyUsed;
     private Date commissioningDate;
     private String inverterCapacity;
-    private String tracking;
     private String generationData;
     private String photographOfInstallation;
     private List<Multimedia> multimedia;
@@ -130,14 +129,6 @@ public class SolarPanel implements Serializable, IProjectable {
 
     public void setInverterCapacity(String inverterCapacity) {
         this.inverterCapacity = inverterCapacity;
-    }
-
-    public String getTracking() {
-        return tracking;
-    }
-
-    public void setTracking(String tracking) {
-        this.tracking = tracking;
     }
 
     public String getGenerationData() {

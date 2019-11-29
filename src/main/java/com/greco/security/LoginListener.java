@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class LoginListener implements ApplicationListener <AuthenticationSuccessEvent>{
+public class LoginListener implements ApplicationListener <AuthenticationSuccessEvent> {
+
     @Autowired
     private UsersRepository usersRepository;
     @Autowired
@@ -20,7 +21,6 @@ public class LoginListener implements ApplicationListener <AuthenticationSuccess
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         if (event.getSource() instanceof UsernamePasswordAuthenticationToken) {
             // update if it is the first login time
-            //(Users) event.getAuthentication().getPrincipal();
             Users loggedInUser =  usersRepository.findByEmail(event.getAuthentication().getName());
             if(loggedInUser != null)
                 controlLogin(loggedInUser);

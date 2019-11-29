@@ -8,6 +8,7 @@ import java.util.*;
 @Entity
 @Table(name = "solar_panel")
 public class SolarPanel implements Serializable, IProjectable {
+
     private static final long serialVersionUID = 1L;
     // Mandatory fields
     @Id
@@ -74,9 +75,6 @@ public class SolarPanel implements Serializable, IProjectable {
 
     @Column(name = "commissioning_date", nullable = true )
     private Date commissioningDate;
-
-    @Column(name = "tracking", scale = 0, length = 255, nullable = true )
-    private String tracking;
 
     @Column(name = "generation_data", scale = 0, length = 255, nullable = true )
     private String generationData;
@@ -192,14 +190,6 @@ public class SolarPanel implements Serializable, IProjectable {
 
     public void setCommissioningDate(Date commissioningDate) {
         this.commissioningDate = commissioningDate;
-    }
-
-    public String getTracking() {
-        return tracking;
-    }
-
-    public void setTracking(String tracking) {
-        this.tracking = tracking;
     }
 
     public String getGenerationData() {

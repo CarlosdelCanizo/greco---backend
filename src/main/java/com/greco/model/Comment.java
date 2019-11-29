@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comment")
-public class Comment implements Serializable, IProjectable  {
+public class Comment implements Serializable, IProjectable {
 
     private static final long serialVersionUID = 1L;
     @Id

@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "multimedia")
 public class Multimedia implements Serializable, IProjectable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="SEQ_multimedia", sequenceName="SEQ_multimedia", allocationSize= 1)

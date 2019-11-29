@@ -8,7 +8,7 @@ public class ChallengesInfoDto {
     private String challengeDescription;
     private String status;
     private Double percentageCompleted;
-    private List<ChallengeLevelDto> challengeLevel;
+    private List<ChallengeLevelDto> challengeLevels;
     private String challengeImage;
 
     public Long getId() {
@@ -51,12 +51,12 @@ public class ChallengesInfoDto {
         this.percentageCompleted = percentageCompleted;
     }
 
-    public List<ChallengeLevelDto> getChallengeLevel() {
-        return challengeLevel;
+    public List<ChallengeLevelDto> getChallengeLevels() {
+        return challengeLevels;
     }
 
-    public void setChallengeLevel(List<ChallengeLevelDto> challengeLevel) {
-        this.challengeLevel = challengeLevel;
+    public void setChallengeLevels(List<ChallengeLevelDto> challengeLevels) {
+        this.challengeLevels = challengeLevels;
     }
 
     public String getChallengeImage() {
